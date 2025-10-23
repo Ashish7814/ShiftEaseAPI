@@ -5,13 +5,13 @@ VisualStudioVersion = 17.14.36616.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShiftEase.API", "ShiftEase.API\ShiftEase.API.csproj", "{5569FB55-DFDD-456B-BEC0-3D37D6E9FC93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShiftEase.EF", "ShiftEase.EF\ShiftEase.EF.csproj", "{17928428-F516-4F29-A258-F1CF64ED87BB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShiftEase.Core", "ShiftEase.Core\ShiftEase.Core.csproj", "{84B33E97-827C-4F6D-A1EE-7E9FDA309887}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShiftEase.Infrastructure", "ShiftEase.Infrastructure\ShiftEase.Infrastructure.csproj", "{452D09FB-C52E-414C-97EB-83EC11A1B26D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShiftEase.Shared", "ShiftEase.Shared\ShiftEase.Shared.csproj", "{61412BBA-EF2D-4502-ACB8-D072DF47C5B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShiftEase.Application", "ShiftEase.Application\ShiftEase.Application.csproj", "{3EEF101B-4288-465C-990F-566569F9A400}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShiftEase.Core", "ShiftEase.Core\ShiftEase.Core.csproj", "{D28285D4-04EF-49F7-99FD-33ECF41CD3A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,14 +23,6 @@ Global
 		{5569FB55-DFDD-456B-BEC0-3D37D6E9FC93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5569FB55-DFDD-456B-BEC0-3D37D6E9FC93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5569FB55-DFDD-456B-BEC0-3D37D6E9FC93}.Release|Any CPU.Build.0 = Release|Any CPU
-		{17928428-F516-4F29-A258-F1CF64ED87BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{17928428-F516-4F29-A258-F1CF64ED87BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{17928428-F516-4F29-A258-F1CF64ED87BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{17928428-F516-4F29-A258-F1CF64ED87BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84B33E97-827C-4F6D-A1EE-7E9FDA309887}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84B33E97-827C-4F6D-A1EE-7E9FDA309887}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84B33E97-827C-4F6D-A1EE-7E9FDA309887}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84B33E97-827C-4F6D-A1EE-7E9FDA309887}.Release|Any CPU.Build.0 = Release|Any CPU
 		{452D09FB-C52E-414C-97EB-83EC11A1B26D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{452D09FB-C52E-414C-97EB-83EC11A1B26D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{452D09FB-C52E-414C-97EB-83EC11A1B26D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +31,14 @@ Global
 		{61412BBA-EF2D-4502-ACB8-D072DF47C5B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61412BBA-EF2D-4502-ACB8-D072DF47C5B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61412BBA-EF2D-4502-ACB8-D072DF47C5B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EEF101B-4288-465C-990F-566569F9A400}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EEF101B-4288-465C-990F-566569F9A400}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EEF101B-4288-465C-990F-566569F9A400}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EEF101B-4288-465C-990F-566569F9A400}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D28285D4-04EF-49F7-99FD-33ECF41CD3A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D28285D4-04EF-49F7-99FD-33ECF41CD3A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D28285D4-04EF-49F7-99FD-33ECF41CD3A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D28285D4-04EF-49F7-99FD-33ECF41CD3A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
