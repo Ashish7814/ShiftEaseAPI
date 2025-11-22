@@ -19,12 +19,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
-builder.Services.AddTransient<TokenService>();
-builder.Services.AddTransient<IAdminRepository, AdminRepository>();
-builder.Services.AddTransient<IAdminService, AdminService>();
-builder.Services.AddTransient<IManagerRepository, ManagerRepository>();
-builder.Services.AddTransient<IManagerService, ManagerService>();
-
+builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<ISignupRepository, SignupRepository>();
+builder.Services.AddScoped<ISignInRepository, SignInRepository>();
+builder.Services.AddScoped<ISignUpService, SignUpService>();
+builder.Services.AddScoped<ISignInService, SignInService>();
 // Configure JWT
 builder.Services.AddAuthentication(options =>
 {
