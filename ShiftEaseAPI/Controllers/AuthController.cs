@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using ShiftEase.EF.Models;
-using ShiftEaseAPI.ViewModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using ShiftEase.Core.Implementation;
+using ShiftEase.Core.Interface;
+using ShiftEase.Shared.DTOs;
 
 namespace ShiftEaseAPI.Controllers
 {
@@ -15,55 +16,39 @@ namespace ShiftEaseAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IConfiguration _configuration;
-        private readonly TokenService _tokenService;
+        private readonly ISignUpService _signUpService;
+        private readonly ISignInService _signInService;
 
         public AuthController(
-            UserManager<ApplicationUser> userManager,
-            RoleManager<ApplicationRole> roleManager,
             IConfiguration configuration,
-            TokenService tokenService)
+            ISignUpService signUpService,
+            ISignInService signInService)
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
             _configuration = configuration;
-            _tokenService = tokenService;
+            _signUpService = signUpService;
+            _signInService = signInService;
         }
 
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var user = await _userManager.FindByNameAsync(model.Username);
-            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+            try
             {
-                var userRoles = await _userManager.GetRolesAsync(user);
-
-                var authClaims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
-
-                foreach (var userRole in userRoles)
-                {
-                    authClaims.Add(new Claim(ClaimTypes.Role, userRole));
-                }
-
-                var token = _tokenService.GetToken(authClaims);
-
-                var primaryRole = userRoles.FirstOrDefault() ?? "User";
+                var result = await _signInService.LoginAsync(model);
+                if (result == null)
+                    return Unauthorized();
 
                 return Ok(new
                 {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo,
-                    role = primaryRole
+                    result
                 });
             }
-            return Unauthorized();
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
 
 
@@ -71,30 +56,19 @@ namespace ShiftEaseAPI.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
-            var userExists = await _userManager.FindByNameAsync(model.Username);
-            if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
-
-            ApplicationUser user = new()
+            try
             {
-                Email = model.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username,
-                FirstName = model.FirstName,
-                LastName = model.LastName
-            };
-
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
-
-            if (!await _roleManager.RoleExistsAsync(model.Role))
-                await _roleManager.CreateAsync(new ApplicationRole { Name = model.Role });
-
-            if (await _roleManager.RoleExistsAsync(model.Role))
-                await _userManager.AddToRoleAsync(user, model.Role);
-
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+                var response = await _signUpService.RegisterAsync(model);
+                if (response.Status == "Error")
+                {
+                   return StatusCode(StatusCodes.Status500InternalServerError, response);
+                }
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
 
         
