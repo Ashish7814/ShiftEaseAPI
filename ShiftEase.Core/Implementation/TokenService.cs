@@ -17,7 +17,7 @@ namespace ShiftEase.Core.Implementation
         {
             _configuration = configuration;
         }
-        
+
         public JwtSecurityToken GetToken(List<Claim> authClaims)
         {
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
