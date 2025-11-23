@@ -1,5 +1,4 @@
-﻿using ShiftEase.Shared.DTOs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ShiftEase.Core.Interface
 {
-    public interface ISignInService
+    public interface IEmailService
     {
-        Task<LoginResponseDto?> LoginAsync(LoginModel model);
+        Task SendAsync(string to, string subject, string htmlBody);
     }
 }

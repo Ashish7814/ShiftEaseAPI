@@ -16,18 +16,14 @@ namespace ShiftEaseAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
-        private readonly ISignUpService _signUpService;
-        private readonly ISignInService _signInService;
+        private readonly IConfiguration _config;
+        private readonly IAuthService _authService;
 
         public AuthController(
-            IConfiguration configuration,
-            ISignUpService signUpService,
-            ISignInService signInService)
+            IConfiguration config, IAuthService authService)
         {
-            _configuration = configuration;
-            _signUpService = signUpService;
-            _signInService = signInService;
+            _config = config;
+            _authService = authService; 
         }
 
         [HttpPost]
@@ -36,7 +32,7 @@ namespace ShiftEaseAPI.Controllers
         {
             try
             {
-                var result = await _signInService.LoginAsync(model);
+                var result = await _authService.LoginAsync(model);
                 if (result == null)
                     return Unauthorized();
 
@@ -58,7 +54,7 @@ namespace ShiftEaseAPI.Controllers
         {
             try
             {
-                var response = await _signUpService.RegisterAsync(model);
+                var response = await _authService.RegisterAsync(model);
                 if (response.Status == "Error")
                 {
                    return StatusCode(StatusCodes.Status500InternalServerError, response);
@@ -71,7 +67,25 @@ namespace ShiftEaseAPI.Controllers
             }
         }
 
-        
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordModel model)
+        {
+            // Example: read frontend base URL from config
+            var frontendUrl = _config["AppSettings:FrontendResetUrl"] ?? "https://yourfrontend.com/reset-password";
+            var response = await _authService.ForgotPasswordAsync(model, frontendUrl);
+            if (response.Status == "Error")
+                return StatusCode(StatusCodes.Status500InternalServerError, response);
+            return Ok(response);
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordModel model)
+        {
+            var response = await _authService.ResetPasswordAsync(model);
+            if (response.Status == "Error")
+                return BadRequest(response);
+            return Ok(response);
+        }
     }
 
 }

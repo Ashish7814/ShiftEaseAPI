@@ -20,10 +20,9 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 builder.Services.AddScoped<TokenService>();
-builder.Services.AddScoped<ISignupRepository, SignupRepository>();
-builder.Services.AddScoped<ISignInRepository, SignInRepository>();
-builder.Services.AddScoped<ISignUpService, SignUpService>();
-builder.Services.AddScoped<ISignInService, SignInService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IEmailService, SmtpEmailService>();
 // Configure JWT
 builder.Services.AddAuthentication(options =>
 {
