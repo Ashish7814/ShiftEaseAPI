@@ -2,13 +2,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using ShiftEase.EF.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using ShiftEase.Core.Implementation;
-using ShiftEase.Core.Interface;
-using ShiftEase.Shared.DTOs;
+using ShiftEaseAPI.Service.Account.DTOs;
+using ShiftEaseAPI.Service.Account.User;
+using ShiftEaseAPI.Service.EmailTemplate;
 
 namespace ShiftEaseAPI.Controllers
 {
@@ -16,30 +15,26 @@ namespace ShiftEaseAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IConfiguration _config;
-        private readonly IAuthService _authService;
+        private readonly IUserService _userService;
+        private readonly IEmailSender _emailSender;
 
-        public AuthController(
-            IConfiguration config, IAuthService authService)
+        public AuthController(IUserService userService, IEmailSender emailSender)
         {
-            _config = config;
-            _authService = authService; 
+            _userService = userService;
+            _emailSender = emailSender;
         }
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        public async Task<IActionResult> Login([FromBody] LoginDto model)
         {
             try
             {
-                var result = await _authService.LoginAsync(model);
+                var result = await _userService.LoginAsync(model);
                 if (result == null)
                     return Unauthorized();
 
-                return Ok(new
-                {
-                    result
-                });
+                return StatusCode(StatusCodes.Status200OK, result);
             }
             catch (Exception ex)
             {
@@ -50,16 +45,16 @@ namespace ShiftEaseAPI.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel model)
+        public async Task<IActionResult> Register([FromBody] RegisterDto model)
         {
             try
             {
-                var response = await _authService.RegisterAsync(model);
+                ResponseDto response = await _userService.RegisterAsync(model);
                 if (response.Status == "Error")
                 {
                    return StatusCode(StatusCodes.Status500InternalServerError, response);
                 }
-                return Ok(response);
+                return StatusCode(StatusCodes.Status200OK, response);
             }
             catch (Exception ex)
             {
@@ -67,24 +62,58 @@ namespace ShiftEaseAPI.Controllers
             }
         }
 
-        [HttpPost("forgot-password")]
-        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordModel model)
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
-            // Example: read frontend base URL from config
-            var frontendUrl = _config["AppSettings:FrontendResetUrl"] ?? "https://yourfrontend.com/reset-password";
-            var response = await _authService.ForgotPasswordAsync(model, frontendUrl);
-            if (response.Status == "Error")
-                return StatusCode(StatusCodes.Status500InternalServerError, response);
-            return Ok(response);
+            try
+            {
+                ResponseDto result = await _emailSender.ConfirmEmailAsync(userId, token);
+                if (!result.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, result.Status);
+                }
+                return StatusCode(StatusCodes.Status200OK, result.Status);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            } 
         }
 
-        [HttpPost("reset-password")]
-        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordModel model)
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto model)
         {
-            var response = await _authService.ResetPasswordAsync(model);
-            if (response.Status == "Error")
-                return BadRequest(response);
-            return Ok(response);
+            try
+            {
+                var response = await _userService.ForgotPasswordAsync(model);
+                if (response.Status == "Error")
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, response.Status);
+                }
+                return StatusCode(StatusCodes.Status200OK, response.Status);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
+        }
+
+        [HttpGet("reset-password")]
+        public async Task<IActionResult> ResetPassword(string userId, string token)
+        {
+            try
+            {
+                ResponseDto response = await _userService.ResetPasswordAsync(userId, token);
+                if (response.Status == "Error")
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, response.Status);
+                }
+                return StatusCode(StatusCodes.Status200OK, response.Status);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { Status = "Error", Message = ex.Message });
+            }
         }
     }
 

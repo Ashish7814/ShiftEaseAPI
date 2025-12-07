@@ -5,14 +5,6 @@ VisualStudioVersion = 18.0.11217.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShiftEaseAPI", "ShiftEaseAPI\ShiftEaseAPI.csproj", "{7B9C430C-6986-4719-94BC-3F942EF9FC27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShiftEase.EF", "ShiftEase.EF\ShiftEase.EF.csproj", "{15BCBA95-E6E9-4C0B-BEEF-31B5C848B4CF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShiftEase.Core", "ShiftEase.Core\ShiftEase.Core.csproj", "{7978C59D-CE2D-4A55-BA14-1FED7505298D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShiftEase.Infrastructure", "ShiftEase.Infrastructure\ShiftEase.Infrastructure.csproj", "{75C7F611-C7D9-4499-B99C-2055F9B8CF13}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShiftEase.Shared", "ShiftEase.Shared\ShiftEase.Shared.csproj", "{7AC30613-29C3-4815-BB00-B59F45311118}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,22 +15,6 @@ Global
 		{7B9C430C-6986-4719-94BC-3F942EF9FC27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B9C430C-6986-4719-94BC-3F942EF9FC27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B9C430C-6986-4719-94BC-3F942EF9FC27}.Release|Any CPU.Build.0 = Release|Any CPU
-		{15BCBA95-E6E9-4C0B-BEEF-31B5C848B4CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{15BCBA95-E6E9-4C0B-BEEF-31B5C848B4CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{15BCBA95-E6E9-4C0B-BEEF-31B5C848B4CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{15BCBA95-E6E9-4C0B-BEEF-31B5C848B4CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7978C59D-CE2D-4A55-BA14-1FED7505298D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7978C59D-CE2D-4A55-BA14-1FED7505298D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7978C59D-CE2D-4A55-BA14-1FED7505298D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7978C59D-CE2D-4A55-BA14-1FED7505298D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{75C7F611-C7D9-4499-B99C-2055F9B8CF13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{75C7F611-C7D9-4499-B99C-2055F9B8CF13}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{75C7F611-C7D9-4499-B99C-2055F9B8CF13}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{75C7F611-C7D9-4499-B99C-2055F9B8CF13}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7AC30613-29C3-4815-BB00-B59F45311118}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7AC30613-29C3-4815-BB00-B59F45311118}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7AC30613-29C3-4815-BB00-B59F45311118}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7AC30613-29C3-4815-BB00-B59F45311118}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
